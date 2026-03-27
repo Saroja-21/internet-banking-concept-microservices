@@ -1,9 +1,7 @@
 package com.javatodev.finance.service;
 
 import com.javatodev.finance.exception.EntityNotFoundException;
-import com.javatodev.finance.exception.GlobalErrorCode;
 import com.javatodev.finance.exception.InsufficientFundsException;
-import com.javatodev.finance.model.TransactionType;
 import com.javatodev.finance.model.dto.BankAccount;
 import com.javatodev.finance.model.dto.UtilityAccount;
 import com.javatodev.finance.model.dto.request.FundTransferRequest;
@@ -16,13 +14,15 @@ import com.javatodev.finance.repository.BankAccountRepository;
 import com.javatodev.finance.repository.TransactionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
+
 import java.math.BigDecimal;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class TransactionServiceTest {
+
     private AccountService accountService;
     private BankAccountRepository bankAccountRepository;
     private TransactionRepository transactionRepository;
@@ -46,22 +46,27 @@ class TransactionServiceTest {
         BankAccount from = new BankAccount();
         from.setNumber("A1");
         from.setActualBalance(BigDecimal.valueOf(200));
+
         BankAccount to = new BankAccount();
         to.setNumber("A2");
         to.setActualBalance(BigDecimal.valueOf(50));
 
         when(accountService.readBankAccount("A1")).thenReturn(from);
         when(accountService.readBankAccount("A2")).thenReturn(to);
+
         BankAccountEntity fromEntity = new BankAccountEntity();
         fromEntity.setNumber("A1");
         fromEntity.setActualBalance(BigDecimal.valueOf(200));
+
         BankAccountEntity toEntity = new BankAccountEntity();
         toEntity.setNumber("A2");
         toEntity.setActualBalance(BigDecimal.valueOf(50));
+
         when(bankAccountRepository.findByNumber("A1")).thenReturn(Optional.of(fromEntity));
         when(bankAccountRepository.findByNumber("A2")).thenReturn(Optional.of(toEntity));
 
         FundTransferResponse response = transactionService.fundTransfer(request);
+
         assertNotNull(response.getTransactionId());
         assertEquals("Transaction successfully completed", response.getMessage());
     }
@@ -72,15 +77,20 @@ class TransactionServiceTest {
         request.setFromAccount("A1");
         request.setToAccount("A2");
         request.setAmount(BigDecimal.valueOf(300));
+
         BankAccount from = new BankAccount();
         from.setNumber("A1");
         from.setActualBalance(BigDecimal.valueOf(200));
+
         BankAccount to = new BankAccount();
         to.setNumber("A2");
         to.setActualBalance(BigDecimal.valueOf(50));
+
         when(accountService.readBankAccount("A1")).thenReturn(from);
         when(accountService.readBankAccount("A2")).thenReturn(to);
-        assertThrows(InsufficientFundsException.class, () -> transactionService.fundTransfer(request));
+
+        assertThrows(InsufficientFundsException.class,
+                () -> transactionService.fundTransfer(request));
     }
 
     @Test
@@ -89,8 +99,12 @@ class TransactionServiceTest {
         request.setFromAccount("A1");
         request.setToAccount("A2");
         request.setAmount(BigDecimal.valueOf(100));
-        when(accountService.readBankAccount("A1")).thenThrow(EntityNotFoundException.class);
-        assertThrows(EntityNotFoundException.class, () -> transactionService.fundTransfer(request));
+
+        when(accountService.readBankAccount("A1"))
+                .thenThrow(EntityNotFoundException.class);
+
+        assertThrows(EntityNotFoundException.class,
+                () -> transactionService.fundTransfer(request));
     }
 
     @Test
@@ -100,19 +114,28 @@ class TransactionServiceTest {
         request.setProviderId(1L);
         request.setAmount(BigDecimal.valueOf(50));
         request.setReferenceNumber("REF123");
+
         BankAccount from = new BankAccount();
         from.setNumber("A1");
         from.setActualBalance(BigDecimal.valueOf(100));
+
         UtilityAccount utility = new UtilityAccount();
         utility.setId(1L);
+
         when(accountService.readBankAccount("A1")).thenReturn(from);
         when(accountService.readUtilityAccount(1L)).thenReturn(utility);
+
         BankAccountEntity fromEntity = new BankAccountEntity();
         fromEntity.setNumber("A1");
         fromEntity.setActualBalance(BigDecimal.valueOf(100));
         fromEntity.setAvailableBalance(BigDecimal.valueOf(100));
-        when(bankAccountRepository.findByNumber("A1")).thenReturn(Optional.of(fromEntity));
-        UtilityPaymentResponse response = transactionService.utilPayment(request);
+
+        when(bankAccountRepository.findByNumber("A1"))
+                .thenReturn(Optional.of(fromEntity));
+
+        UtilityPaymentResponse response =
+                transactionService.utilPayment(request);
+
         assertNotNull(response.getTransactionId());
         assertEquals("Utility payment successfully completed", response.getMessage());
     }
@@ -123,11 +146,15 @@ class TransactionServiceTest {
         request.setAccount("A1");
         request.setProviderId(1L);
         request.setAmount(BigDecimal.valueOf(150));
+
         BankAccount from = new BankAccount();
         from.setNumber("A1");
         from.setActualBalance(BigDecimal.valueOf(100));
+
         when(accountService.readBankAccount("A1")).thenReturn(from);
-        assertThrows(InsufficientFundsException.class, () -> transactionService.utilPayment(request));
+
+        assertThrows(InsufficientFundsException.class,
+                () -> transactionService.utilPayment(request));
     }
 
     @Test
@@ -136,8 +163,12 @@ class TransactionServiceTest {
         request.setAccount("A1");
         request.setProviderId(1L);
         request.setAmount(BigDecimal.valueOf(50));
-        when(accountService.readBankAccount("A1")).thenThrow(EntityNotFoundException.class);
-        assertThrows(EntityNotFoundException.class, () -> transactionService.utilPayment(request));
+
+        when(accountService.readBankAccount("A1"))
+                .thenThrow(EntityNotFoundException.class);
+
+        assertThrows(EntityNotFoundException.class,
+                () -> transactionService.utilPayment(request));
     }
 
     @Test
@@ -145,20 +176,27 @@ class TransactionServiceTest {
         BankAccount from = new BankAccount();
         from.setNumber("A1");
         from.setActualBalance(BigDecimal.valueOf(200));
+
         BankAccount to = new BankAccount();
         to.setNumber("A2");
         to.setActualBalance(BigDecimal.valueOf(50));
+
         BankAccountEntity fromEntity = new BankAccountEntity();
         fromEntity.setNumber("A1");
         fromEntity.setActualBalance(BigDecimal.valueOf(200));
         fromEntity.setAvailableBalance(BigDecimal.valueOf(200));
+
         BankAccountEntity toEntity = new BankAccountEntity();
         toEntity.setNumber("A2");
         toEntity.setActualBalance(BigDecimal.valueOf(50));
         toEntity.setAvailableBalance(BigDecimal.valueOf(50));
+
         when(bankAccountRepository.findByNumber("A1")).thenReturn(Optional.of(fromEntity));
         when(bankAccountRepository.findByNumber("A2")).thenReturn(Optional.of(toEntity));
-        String transactionId = transactionService.internalFundTransfer(from, to, BigDecimal.valueOf(100));
+
+        String transactionId =
+                transactionService.internalFundTransfer(from, to, BigDecimal.valueOf(100));
+
         assertNotNull(transactionId);
         verify(bankAccountRepository, times(2)).save(any(BankAccountEntity.class));
         verify(transactionRepository, times(2)).save(any(TransactionEntity.class));
@@ -168,17 +206,30 @@ class TransactionServiceTest {
     void internalFundTransfer_entityNotFound() {
         BankAccount from = new BankAccount();
         from.setNumber("A1");
+
         BankAccount to = new BankAccount();
         to.setNumber("A2");
+
         when(bankAccountRepository.findByNumber("A1")).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> transactionService.internalFundTransfer(from, to, BigDecimal.valueOf(100)));
+
+        assertThrows(EntityNotFoundException.class,
+                () -> transactionService.internalFundTransfer(from, to, BigDecimal.valueOf(100)));
     }
 
     @Test
     void validateBalance_throwsException() {
-        BankAccount account = new BankAccount();
-        account.setNumber("A1");
-        account.setActualBalance(BigDecimal.valueOf(50));
+
+        BankAccount from = new BankAccount();
+        from.setNumber("A1");
+        from.setActualBalance(BigDecimal.valueOf(50));
+
+        BankAccount to = new BankAccount();
+        to.setNumber("A2");
+        to.setActualBalance(BigDecimal.valueOf(100));
+
+        when(accountService.readBankAccount("A1")).thenReturn(from);
+        when(accountService.readBankAccount("A2")).thenReturn(to);
+
         assertThrows(InsufficientFundsException.class, () -> {
             FundTransferRequest request = new FundTransferRequest();
             request.setFromAccount("A1");
@@ -189,4 +240,3 @@ class TransactionServiceTest {
         });
     }
 }
-
