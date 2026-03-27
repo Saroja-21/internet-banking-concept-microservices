@@ -26,12 +26,23 @@ class UserServiceTest {
         userService = new UserService(userRepository);
     }
 
+    private UserEntity createUserEntity() {
+        UserEntity entity = new UserEntity();
+        entity.setId(1L);
+        entity.setIdentificationNumber("ID123");
+
+        // 🔥 IMPORTANT: add these (avoid NullPointer)
+        entity.setFirstName("John");
+        entity.setLastName("Doe");
+        entity.setEmail("john@test.com");
+
+        return entity;
+    }
+
     @Test
     void readUser_found() {
 
-        UserEntity entity = new UserEntity();
-        entity.setId(1L); // ✅ IMPORTANT
-        entity.setIdentificationNumber("ID123");
+        UserEntity entity = createUserEntity();
 
         when(userRepository.findByIdentificationNumber("ID123"))
                 .thenReturn(Optional.of(entity));
@@ -55,9 +66,7 @@ class UserServiceTest {
     @Test
     void readUsers_success() {
 
-        UserEntity entity = new UserEntity();
-        entity.setId(1L); // ✅ IMPORTANT
-        entity.setIdentificationNumber("ID123");
+        UserEntity entity = createUserEntity();
 
         List<UserEntity> entities = Collections.singletonList(entity);
         Page<UserEntity> page = new PageImpl<>(entities);
@@ -65,7 +74,6 @@ class UserServiceTest {
         when(userRepository.findAll(any(Pageable.class)))
                 .thenReturn(page);
 
-        // ✅ Use PageRequest instead of unpaged
         Pageable pageable = PageRequest.of(0, 10);
 
         List<User> result = userService.readUsers(pageable);
