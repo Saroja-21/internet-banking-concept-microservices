@@ -28,28 +28,27 @@ class UserServiceTest {
         UserEntity entity = new UserEntity();
         entity.setId(1L);
         entity.setIdentificationNumber("ID123");
-
-        // keep minimal (safe)
+        entity.setFirstName("John");
+        entity.setLastName("Doe");
+        entity.setEmail("john.doe@example.com");
+        entity.setAddress("123 Main St");
+        entity.setStatus(UserEntity.Status.ACTIVE); // adjust to your actual enum/type
         return entity;
     }
 
     @Test
     void readUser_found() {
-
         UserEntity entity = createUser();
-
         when(userRepository.findByIdentificationNumber("ID123"))
                 .thenReturn(Optional.of(entity));
 
         User result = userService.readUser("ID123");
 
-        // 🔥 IMPORTANT: only check NOT NULL
         assertNotNull(result);
     }
 
     @Test
     void readUser_notFound() {
-
         when(userRepository.findByIdentificationNumber("ID123"))
                 .thenReturn(Optional.empty());
 
@@ -59,19 +58,15 @@ class UserServiceTest {
 
     @Test
     void readUsers_success() {
-
         UserEntity entity = createUser();
-
         Page<UserEntity> page =
                 new PageImpl<>(Collections.singletonList(entity));
 
         when(userRepository.findAll(any(Pageable.class)))
                 .thenReturn(page);
 
-        List<User> result =
-                userService.readUsers(PageRequest.of(0, 10));
+        List<User> result = userService.readUsers(PageRequest.of(0, 10));
 
-        // 🔥 ONLY SAFE ASSERTIONS
         assertNotNull(result);
         assertEquals(1, result.size());
     }
