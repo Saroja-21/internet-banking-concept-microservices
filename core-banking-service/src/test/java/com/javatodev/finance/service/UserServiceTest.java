@@ -31,8 +31,7 @@ class UserServiceTest {
         entity.setFirstName("John");
         entity.setLastName("Doe");
         entity.setEmail("john.doe@example.com");
-        entity.setAddress("123 Main St");
-        entity.setStatus(UserEntity.Status.ACTIVE); // adjust to your actual enum/type
+        entity.setAccounts(new ArrayList<>());
         return entity;
     }
 
