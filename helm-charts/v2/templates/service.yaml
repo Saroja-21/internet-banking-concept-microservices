@@ -1,0 +1,21 @@
+{{- range $svc := list "serviceRegistry" "configServer" "apiGateway" "userService" "coreBankingService" "fundTransferService" "utilityPaymentService" }}
+{{- $config := index $.Values $svc }}
+{{- if $config.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $config.name }}
+  labels:
+    app: {{ $config.name }}
+spec:
+  type: {{ $config.service.type }}
+  ports:
+    - port: {{ $config.service.port }}
+      targetPort: {{ $config.containerPort | default $config.service.port }}
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ $config.name }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: internet-banking
+description: A Helm chart for Internet Banking Microservices - FAULTY Version for Rollback Testing
+type: application
+version: 2.0.0
+appVersion: "2.0.0"

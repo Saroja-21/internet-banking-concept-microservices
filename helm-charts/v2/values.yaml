@@ -1,0 +1,191 @@
+# FAULTY version (v2) - Intentional issues for rollback testing
+# Issues: Non-existent image tags, invalid health endpoints, low memory limits
+
+global:
+  namespace: internet-banking
+
+serviceRegistry:
+  enabled: true
+  name: service-registry
+  replicaCount: 1
+  image:
+    repository: saroja21/internet-banking-service-registry
+    tag: "broken-v2-nonexistent"  # FAULT: Tag doesn't exist
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8761
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "64Mi"  # FAULT: Too low for Java
+      cpu: "50m"
+  healthCheck:
+    enabled: true
+    path: "/non-existent-health"  # FAULT: Invalid endpoint
+    initialDelaySeconds: 5
+    periodSeconds: 2
+    failureThreshold: 1
+
+configServer:
+  enabled: true
+  name: config-server
+  replicaCount: 1
+  image:
+    repository: saroja21/internet-banking-config-server
+    tag: "broken-v2-nonexistent"
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8888
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "64Mi"
+      cpu: "50m"
+  healthCheck:
+    enabled: true
+    path: "/non-existent-health"
+    initialDelaySeconds: 5
+    periodSeconds: 2
+    failureThreshold: 1
+
+apiGateway:
+  enabled: true
+  name: api-gateway
+  replicaCount: 2
+  image:
+    repository: saroja21/internet-banking-api-gateway
+    tag: "broken-v2-nonexistent"
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+    port: 8080
+  containerPort: 9999  # FAULT: Wrong port
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "64Mi"
+      cpu: "50m"
+  healthCheck:
+    enabled: true
+    path: "/non-existent-health"
+    initialDelaySeconds: 5
+    periodSeconds: 2
+    failureThreshold: 1
+
+userService:
+  enabled: true
+  name: user-service
+  replicaCount: 2
+  image:
+    repository: saroja21/internet-banking-user-service
+    tag: "broken-v2-nonexistent"
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8081
+  containerPort: 9998
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "32Mi"
+      cpu: "10m"
+  healthCheck:
+    enabled: true
+    path: "/non-existent-health"
+    initialDelaySeconds: 3
+    periodSeconds: 1
+    failureThreshold: 1
+
+coreBankingService:
+  enabled: true
+  name: core-banking-service
+  replicaCount: 2
+  image:
+    repository: saroja21/core-banking-service
+    tag: "broken-v2-nonexistent"
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8082
+  containerPort: 9997
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "32Mi"
+      cpu: "10m"
+  healthCheck:
+    enabled: true
+    path: "/crash-endpoint"
+    initialDelaySeconds: 3
+    periodSeconds: 1
+    failureThreshold: 1
+
+fundTransferService:
+  enabled: true
+  name: fund-transfer-service
+  replicaCount: 2
+  image:
+    repository: saroja21/internet-banking-fund-transfer-service
+    tag: "broken-v2-nonexistent"
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8083
+  containerPort: 9996
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "32Mi"
+      cpu: "10m"
+  healthCheck:
+    enabled: true
+    path: "/crash-endpoint"
+    initialDelaySeconds: 3
+    periodSeconds: 1
+    failureThreshold: 1
+
+utilityPaymentService:
+  enabled: true
+  name: utility-payment-service
+  replicaCount: 2
+  image:
+    repository: saroja21/internet-banking-utility-payment-service
+    tag: "broken-v2-nonexistent"
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8084
+  containerPort: 9995
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "32Mi"
+      cpu: "10m"
+  healthCheck:
+    enabled: true
+    path: "/crash-endpoint"
+    initialDelaySeconds: 3
+    periodSeconds: 1
+    failureThreshold: 1
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0

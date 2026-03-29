@@ -1,0 +1,58 @@
+# FAULTY DEPLOYMENT - v2 for rollback testing
+{{- range $svc := list "serviceRegistry" "configServer" "apiGateway" "userService" "coreBankingService" "fundTransferService" "utilityPaymentService" }}
+{{- $config := index $.Values $svc }}
+{{- if $config.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $config.name }}
+  labels:
+    app: {{ $config.name }}
+    version: {{ $.Chart.AppVersion }}
+    faulty: "true"
+  annotations:
+    description: "FAULTY - For rollback testing"
+spec:
+  replicas: {{ $config.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $config.name }}
+  strategy:
+    type: {{ $.Values.strategy.type }}
+    rollingUpdate:
+      maxSurge: {{ $.Values.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ $.Values.strategy.rollingUpdate.maxUnavailable }}
+  template:
+    metadata:
+      labels:
+        app: {{ $config.name }}
+        version: {{ $.Chart.AppVersion }}
+        faulty: "true"
+    spec:
+      containers:
+        - name: {{ $config.name }}
+          image: "{{ $config.image.repository }}:{{ $config.image.tag }}"
+          imagePullPolicy: {{ $config.image.pullPolicy }}
+          ports:
+            - containerPort: {{ $config.containerPort | default $config.service.port }}
+          resources:
+            {{- toYaml $config.resources | nindent 12 }}
+          {{- if $config.healthCheck.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ $config.healthCheck.path | default "/actuator/health" }}
+              port: {{ $config.containerPort | default $config.service.port }}
+            initialDelaySeconds: {{ $config.healthCheck.initialDelaySeconds }}
+            periodSeconds: {{ $config.healthCheck.periodSeconds }}
+            failureThreshold: {{ $config.healthCheck.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              path: {{ $config.healthCheck.path | default "/actuator/health" }}
+              port: {{ $config.containerPort | default $config.service.port }}
+            initialDelaySeconds: {{ $config.healthCheck.initialDelaySeconds }}
+            periodSeconds: {{ $config.healthCheck.periodSeconds }}
+            failureThreshold: {{ $config.healthCheck.failureThreshold }}
+          {{- end }}
+{{- end }}
+{{- end }}
