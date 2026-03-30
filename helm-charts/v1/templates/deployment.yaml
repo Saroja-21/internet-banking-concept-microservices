@@ -31,9 +31,13 @@ spec:
           imagePullPolicy: {{ $config.image.pullPolicy }}
           ports:
             - containerPort: {{ $config.service.port }}
+
+          {{- if $config.resources }}
           resources:
             {{- toYaml $config.resources | nindent 12 }}
-          {{- if $config.healthCheck.enabled }}
+          {{- end }}
+
+          {{- if and $config.healthCheck $config.healthCheck.enabled }}
           livenessProbe:
             httpGet:
               path: /actuator/health
@@ -49,5 +53,6 @@ spec:
             periodSeconds: {{ $config.healthCheck.periodSeconds }}
             failureThreshold: {{ $config.healthCheck.failureThreshold }}
           {{- end }}
+
 {{- end }}
 {{- end }}
