@@ -7,7 +7,7 @@ serviceRegistry:
   replicaCount: 1
   image:
     repository: saroja21/internet-banking-service-registry
-    tag: "b7ff565610c4f67ed925e09e5516ad5a721b72fc"
+    tag: "70"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -19,7 +19,7 @@ configServer:
   replicaCount: 1
   image:
     repository: saroja21/internet-banking-config-server
-    tag: "b7ff565610c4f67ed925e09e5516ad5a721b72fc"
+    tag: "70"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -31,7 +31,7 @@ apiGateway:
   replicaCount: 2
   image:
     repository: saroja21/internet-banking-api-gateway
-    tag: "b7ff565610c4f67ed925e09e5516ad5a721b72fc"
+    tag: "70"
     pullPolicy: IfNotPresent
   service:
     type: LoadBalancer
@@ -43,7 +43,7 @@ userService:
   replicaCount: 2
   image:
     repository: saroja21/internet-banking-user-service
-    tag: "b7ff565610c4f67ed925e09e5516ad5a721b72fc"
+    tag: "70"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -55,7 +55,7 @@ coreBankingService:
   replicaCount: 2
   image:
     repository: saroja21/core-banking-service
-    tag: "b7ff565610c4f67ed925e09e5516ad5a721b72fc"
+    tag: "70"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -79,7 +79,7 @@ fundTransferService:
   replicaCount: 2
   image:
     repository: saroja21/internet-banking-fund-transfer-service
-    tag: "b7ff565610c4f67ed925e09e5516ad5a721b72fc"
+    tag: "70"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -91,7 +91,7 @@ utilityPaymentService:
   replicaCount: 2
   image:
     repository: saroja21/internet-banking-utility-payment-service
-    tag: "b7ff565610c4f67ed925e09e5516ad5a721b72fc"
+    tag: "70"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
