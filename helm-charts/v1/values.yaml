@@ -2,7 +2,7 @@ global:
   namespace: internet-banking
 
 serviceRegistry:
-  enabled: "<+pipeline.variables.deployCoreOnly> == false"
+  enabled: false
   name: service-registry
   replicaCount: 1
   image:
@@ -14,7 +14,7 @@ serviceRegistry:
     port: 8761
 
 configServer:
-  enabled: "<+pipeline.variables.deployCoreOnly> == false"
+  enabled: false
   name: config-server
   replicaCount: 1
   image:
@@ -26,7 +26,7 @@ configServer:
     port: 8888
 
 apiGateway:
-  enabled: "<+pipeline.variables.deployCoreOnly> == false"
+  enabled: false
   name: api-gateway
   replicaCount: 2
   image:
@@ -38,7 +38,7 @@ apiGateway:
     port: 8080
 
 userService:
-  enabled: "<+pipeline.variables.deployCoreOnly> == false"
+  enabled: false
   name: user-service
   replicaCount: 2
   image:
@@ -62,7 +62,7 @@ coreBankingService:
     port: 8082
 
 fundTransferService:
-  enabled: "<+pipeline.variables.deployCoreOnly> == false"
+  enabled: false
   name: fund-transfer-service
   replicaCount: 2
   image:
@@ -74,7 +74,7 @@ fundTransferService:
     port: 8083
 
 utilityPaymentService:
-  enabled: "<+pipeline.variables.deployCoreOnly> == false"
+  enabled: false
   name: utility-payment-service
   replicaCount: 2
   image:
