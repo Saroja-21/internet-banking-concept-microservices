@@ -55,7 +55,7 @@ coreBankingService:
   replicaCount: 2
   image:
     repository: saroja21/core-banking-service
-    tag: "70"
+    tag: "72"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
