@@ -59,7 +59,7 @@ coreBankingService:
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
-    port: 8082
+    port: 8080
 
 fundTransferService:
   enabled: false
