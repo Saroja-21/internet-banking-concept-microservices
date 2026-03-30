@@ -60,6 +60,18 @@ coreBankingService:
   service:
     type: ClusterIP
     port: 8092
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+  healthCheck:
+    enabled: true
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    failureThreshold: 6
 
 fundTransferService:
   enabled: false
