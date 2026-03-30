@@ -1,9 +1,8 @@
-# Working version (v1) - Proper configurations
 global:
   namespace: internet-banking
 
 serviceRegistry:
-  enabled: true
+  enabled: "<+pipeline.variables.deployCoreOnly> == false"
   name: service-registry
   replicaCount: 1
   image:
@@ -13,21 +12,9 @@ serviceRegistry:
   service:
     type: ClusterIP
     port: 8761
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
-      cpu: "500m"
-  healthCheck:
-    enabled: true
-    initialDelaySeconds: 60
-    periodSeconds: 10
-    failureThreshold: 3
 
 configServer:
-  enabled: true
+  enabled: "<+pipeline.variables.deployCoreOnly> == false"
   name: config-server
   replicaCount: 1
   image:
@@ -37,21 +24,9 @@ configServer:
   service:
     type: ClusterIP
     port: 8888
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
-      cpu: "500m"
-  healthCheck:
-    enabled: true
-    initialDelaySeconds: 45
-    periodSeconds: 10
-    failureThreshold: 3
 
 apiGateway:
-  enabled: true
+  enabled: "<+pipeline.variables.deployCoreOnly> == false"
   name: api-gateway
   replicaCount: 2
   image:
@@ -61,21 +36,9 @@ apiGateway:
   service:
     type: LoadBalancer
     port: 8080
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
-      cpu: "500m"
-  healthCheck:
-    enabled: true
-    initialDelaySeconds: 60
-    periodSeconds: 10
-    failureThreshold: 3
 
 userService:
-  enabled: true
+  enabled: "<+pipeline.variables.deployCoreOnly> == false"
   name: user-service
   replicaCount: 2
   image:
@@ -85,18 +48,6 @@ userService:
   service:
     type: ClusterIP
     port: 8081
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
-      cpu: "500m"
-  healthCheck:
-    enabled: true
-    initialDelaySeconds: 60
-    periodSeconds: 10
-    failureThreshold: 3
 
 coreBankingService:
   enabled: true
@@ -109,21 +60,9 @@ coreBankingService:
   service:
     type: ClusterIP
     port: 8082
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
-      cpu: "500m"
-  healthCheck:
-    enabled: true
-    initialDelaySeconds: 60
-    periodSeconds: 10
-    failureThreshold: 3
 
 fundTransferService:
-  enabled: true
+  enabled: "<+pipeline.variables.deployCoreOnly> == false"
   name: fund-transfer-service
   replicaCount: 2
   image:
@@ -133,21 +72,9 @@ fundTransferService:
   service:
     type: ClusterIP
     port: 8083
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
-      cpu: "500m"
-  healthCheck:
-    enabled: true
-    initialDelaySeconds: 60
-    periodSeconds: 10
-    failureThreshold: 3
 
 utilityPaymentService:
-  enabled: true
+  enabled: "<+pipeline.variables.deployCoreOnly> == false"
   name: utility-payment-service
   replicaCount: 2
   image:
@@ -157,18 +84,6 @@ utilityPaymentService:
   service:
     type: ClusterIP
     port: 8084
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
-      cpu: "500m"
-  healthCheck:
-    enabled: true
-    initialDelaySeconds: 60
-    periodSeconds: 10
-    failureThreshold: 3
 
 strategy:
   type: RollingUpdate
