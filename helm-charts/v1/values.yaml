@@ -69,9 +69,9 @@ coreBankingService:
       cpu: "500m"
   healthCheck:
     enabled: true
-    initialDelaySeconds: 60
+    initialDelaySeconds: 90
     periodSeconds: 10
-    failureThreshold: 6
+    failureThreshold: 10
 
 fundTransferService:
   enabled: false
