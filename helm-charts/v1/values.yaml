@@ -48,6 +48,18 @@ userService:
   service:
     type: ClusterIP
     port: 8081
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+  healthCheck:
+    enabled: true
+    initialDelaySeconds: 90
+    periodSeconds: 10
+    failureThreshold: 10
 
 coreBankingService:
   enabled: true

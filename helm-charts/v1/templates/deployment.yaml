@@ -31,7 +31,7 @@ spec:
           imagePullPolicy: {{ $config.image.pullPolicy }}
 
           ports:
-            - containerPort: 8092
+            - containerPort: {{ $config.service.port }}
 
           env:
             # Use H2 in-memory database for smoke testing
@@ -50,7 +50,7 @@ spec:
             - name: SPRING_FLYWAY_ENABLED
               value: "false"
             - name: SERVER_PORT
-              value: "8092"
+              value: "{{ $config.service.port }}"
             - name: SPRING_CLOUD_CONFIG_ENABLED
               value: "false"
             - name: EUREKA_CLIENT_ENABLED
@@ -65,7 +65,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8092
+              port: {{ $config.service.port }}
             initialDelaySeconds: {{ $config.healthCheck.initialDelaySeconds }}
             periodSeconds: {{ $config.healthCheck.periodSeconds }}
             failureThreshold: {{ $config.healthCheck.failureThreshold }}
@@ -73,7 +73,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8092
+              port: {{ $config.service.port }}
             initialDelaySeconds: {{ $config.healthCheck.initialDelaySeconds }}
             periodSeconds: {{ $config.healthCheck.periodSeconds }}
             failureThreshold: {{ $config.healthCheck.failureThreshold }}
