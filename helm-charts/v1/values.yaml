@@ -38,12 +38,12 @@ apiGateway:
     port: 8080
 
 userService:
-  enabled: false
-  name: user-service
+  enabled: true
+  name: internet-banking-user-service
   replicaCount: 2
   image:
     repository: saroja21/internet-banking-user-service
-    tag: "70"
+    tag: "main"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
