@@ -112,7 +112,7 @@ class UserServiceTest {
         user.setIdentification("ID123");
 
         UserResponse bankingUser = new UserResponse();
-        bankingUser.setId(1L);
+        bankingUser.setId(1);
         bankingUser.setEmail("correct@test.com");
 
         when(keycloakUserService.readUserByEmail("wrong@test.com")).thenReturn(Collections.emptyList());
