@@ -55,6 +55,20 @@ spec:
               value: "false"
             - name: EUREKA_CLIENT_ENABLED
               value: "false"
+            {{- if eq $svc "userService" }}
+            # Keycloak configuration for user-service
+            - name: APP_CONFIG_KEYCLOAK_SERVER_URL
+              value: "http://localhost:8080"
+            - name: APP_CONFIG_KEYCLOAK_REALM
+              value: "master"
+            - name: APP_CONFIG_KEYCLOAK_CLIENTID
+              value: "admin-cli"
+            - name: APP_CONFIG_KEYCLOAK_CLIENT_SECRET
+              value: "dummy-secret"
+            # Feign client configuration
+            - name: SPRING_CLOUD_OPENFEIGN_CLIENT_CONFIG_DEFAULT_URL
+              value: "http://core-banking-service:8092"
+            {{- end }}
 
           {{- if $config.resources }}
           resources:
