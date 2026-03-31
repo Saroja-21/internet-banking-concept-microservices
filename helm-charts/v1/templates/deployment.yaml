@@ -83,6 +83,7 @@ spec:
             initialDelaySeconds: {{ $config.healthCheck.initialDelaySeconds }}
             periodSeconds: {{ $config.healthCheck.periodSeconds }}
             failureThreshold: {{ $config.healthCheck.failureThreshold }}
+            timeoutSeconds: {{ $config.healthCheck.timeoutSeconds | default 5 }}
 
           readinessProbe:
             httpGet:
@@ -91,6 +92,7 @@ spec:
             initialDelaySeconds: {{ $config.healthCheck.initialDelaySeconds }}
             periodSeconds: {{ $config.healthCheck.periodSeconds }}
             failureThreshold: {{ $config.healthCheck.failureThreshold }}
+            timeoutSeconds: {{ $config.healthCheck.timeoutSeconds | default 5 }}
           {{- end }}
 
 {{- end }}
