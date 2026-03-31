@@ -44,7 +44,7 @@ userService:
   image:
     repository: saroja21/internet-banking-user-service
     tag: "main"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     type: ClusterIP
     port: 8081
