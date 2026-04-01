@@ -23,8 +23,8 @@ fundTransferService:
   replicaCount: 2
   image:
     repository: saroja21/internet-banking-fund-transfer-service
-    tag: "70"
-    pullPolicy: IfNotPresent
+    tag: "main"
+    pullPolicy: Always
   service:
     type: ClusterIP
     port: 8083
