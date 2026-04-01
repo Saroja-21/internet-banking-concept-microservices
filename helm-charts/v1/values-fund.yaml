@@ -19,7 +19,7 @@ coreBankingService:
 
 fundTransferService:
   enabled: true
-  name: fund-transfer-service
+  name: internet-banking-fund-transfer-service
   replicaCount: 1
   image:
     repository: saroja21/internet-banking-fund-transfer-service
