@@ -31,15 +31,15 @@ fundTransferService:
   resources:
     requests:
       memory: "512Mi"
-      cpu: "200m"
+      cpu: "100m"
     limits:
       memory: "1Gi"
-      cpu: "500m"
+      cpu: "250m"
   healthCheck:
     enabled: true
-    initialDelaySeconds: 180
+    initialDelaySeconds: 240
     periodSeconds: 20
-    failureThreshold: 15
+    failureThreshold: 20
 
 utilityPaymentService:
   enabled: false
