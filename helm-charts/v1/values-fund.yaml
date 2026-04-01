@@ -30,16 +30,16 @@ fundTransferService:
     port: 8083
   resources:
     requests:
-      memory: "256Mi"
+      memory: "384Mi"
       cpu: "100m"
     limits:
-      memory: "512Mi"
-      cpu: "200m"
+      memory: "768Mi"
+      cpu: "300m"
   healthCheck:
     enabled: true
-    initialDelaySeconds: 90
-    periodSeconds: 10
-    failureThreshold: 10
+    initialDelaySeconds: 120
+    periodSeconds: 15
+    failureThreshold: 12
 
 utilityPaymentService:
   enabled: false
