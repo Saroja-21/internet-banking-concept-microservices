@@ -1,0 +1,51 @@
+# Deploy ONLY core-banking-service
+global:
+  namespace: internet-banking
+
+serviceRegistry:
+  enabled: false
+
+configServer:
+  enabled: false
+
+apiGateway:
+  enabled: false
+
+userService:
+  enabled: false
+
+coreBankingService:
+  enabled: true
+  name: core-banking-service
+  replicaCount: 2
+  image:
+    repository: saroja21/core-banking-service
+    tag: "72"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8092
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+  healthCheck:
+    enabled: true
+    initialDelaySeconds: 90
+    periodSeconds: 10
+    failureThreshold: 10
+
+fundTransferService:
+  enabled: false
+
+utilityPaymentService:
+  enabled: false
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0

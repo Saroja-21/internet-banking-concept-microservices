@@ -1,0 +1,51 @@
+# Deploy ONLY utility-payment-service
+global:
+  namespace: internet-banking
+
+serviceRegistry:
+  enabled: false
+
+configServer:
+  enabled: false
+
+apiGateway:
+  enabled: false
+
+userService:
+  enabled: false
+
+coreBankingService:
+  enabled: false
+
+fundTransferService:
+  enabled: false
+
+utilityPaymentService:
+  enabled: true
+  name: utility-payment-service
+  replicaCount: 2
+  image:
+    repository: saroja21/internet-banking-utility-payment-service
+    tag: "70"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8084
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+  healthCheck:
+    enabled: true
+    initialDelaySeconds: 90
+    periodSeconds: 10
+    failureThreshold: 10
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0

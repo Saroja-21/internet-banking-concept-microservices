@@ -1,0 +1,51 @@
+# Deploy ONLY config-server
+global:
+  namespace: internet-banking
+
+serviceRegistry:
+  enabled: false
+
+configServer:
+  enabled: true
+  name: config-server
+  replicaCount: 1
+  image:
+    repository: saroja21/internet-banking-config-server
+    tag: "70"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8888
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+  healthCheck:
+    enabled: true
+    initialDelaySeconds: 90
+    periodSeconds: 10
+    failureThreshold: 10
+
+apiGateway:
+  enabled: false
+
+userService:
+  enabled: false
+
+coreBankingService:
+  enabled: false
+
+fundTransferService:
+  enabled: false
+
+utilityPaymentService:
+  enabled: false
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0

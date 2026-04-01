@@ -1,0 +1,52 @@
+# Deploy ONLY user-service
+global:
+  namespace: internet-banking
+
+serviceRegistry:
+  enabled: false
+
+configServer:
+  enabled: false
+
+apiGateway:
+  enabled: false
+
+userService:
+  enabled: true
+  name: internet-banking-user-service
+  replicaCount: 2
+  image:
+    repository: saroja21/internet-banking-user-service
+    tag: "main"
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8081
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+  healthCheck:
+    enabled: true
+    initialDelaySeconds: 120
+    periodSeconds: 15
+    failureThreshold: 12
+    timeoutSeconds: 10
+
+coreBankingService:
+  enabled: false
+
+fundTransferService:
+  enabled: false
+
+utilityPaymentService:
+  enabled: false
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0

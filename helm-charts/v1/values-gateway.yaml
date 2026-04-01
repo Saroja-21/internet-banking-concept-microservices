@@ -1,0 +1,51 @@
+# Deploy ONLY api-gateway
+global:
+  namespace: internet-banking
+
+serviceRegistry:
+  enabled: false
+
+configServer:
+  enabled: false
+
+apiGateway:
+  enabled: true
+  name: api-gateway
+  replicaCount: 2
+  image:
+    repository: saroja21/internet-banking-api-gateway
+    tag: "70"
+    pullPolicy: IfNotPresent
+  service:
+    type: LoadBalancer
+    port: 8080
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+  healthCheck:
+    enabled: true
+    initialDelaySeconds: 90
+    periodSeconds: 10
+    failureThreshold: 10
+
+userService:
+  enabled: false
+
+coreBankingService:
+  enabled: false
+
+fundTransferService:
+  enabled: false
+
+utilityPaymentService:
+  enabled: false
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
