@@ -14,7 +14,7 @@ apiGateway:
 userService:
   enabled: true
   name: internet-banking-user-service
-  replicaCount: 2
+  replicaCount: 1
   image:
     repository: saroja21/internet-banking-user-service
     tag: "main"
@@ -25,15 +25,15 @@ userService:
   resources:
     requests:
       memory: "512Mi"
-      cpu: "250m"
+      cpu: "100m"
     limits:
       memory: "1Gi"
-      cpu: "500m"
+      cpu: "250m"
   healthCheck:
     enabled: true
-    initialDelaySeconds: 120
-    periodSeconds: 15
-    failureThreshold: 12
+    initialDelaySeconds: 240
+    periodSeconds: 20
+    failureThreshold: 20
     timeoutSeconds: 10
 
 coreBankingService:

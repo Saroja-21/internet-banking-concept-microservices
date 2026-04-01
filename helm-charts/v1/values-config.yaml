@@ -7,27 +7,27 @@ serviceRegistry:
 
 configServer:
   enabled: true
-  name: config-server
+  name: internet-banking-config-server
   replicaCount: 1
   image:
     repository: saroja21/internet-banking-config-server
-    tag: "70"
-    pullPolicy: IfNotPresent
+    tag: "main"
+    pullPolicy: Always
   service:
     type: ClusterIP
     port: 8888
   resources:
     requests:
       memory: "512Mi"
-      cpu: "250m"
+      cpu: "100m"
     limits:
       memory: "1Gi"
-      cpu: "500m"
+      cpu: "250m"
   healthCheck:
     enabled: true
-    initialDelaySeconds: 90
-    periodSeconds: 10
-    failureThreshold: 10
+    initialDelaySeconds: 240
+    periodSeconds: 20
+    failureThreshold: 20
 
 apiGateway:
   enabled: false
