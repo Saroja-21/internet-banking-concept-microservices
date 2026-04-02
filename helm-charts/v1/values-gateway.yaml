@@ -28,9 +28,9 @@ apiGateway:
       cpu: "100m"
   healthCheck:
     enabled: true
-    initialDelaySeconds: 240
-    periodSeconds: 20
-    failureThreshold: 20
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    failureThreshold: 10
 
 userService:
   enabled: false
