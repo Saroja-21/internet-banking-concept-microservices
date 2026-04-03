@@ -1,3 +1,35 @@
 spring:
   application:
     name: internet-banking-api-gateway
+  cloud:
+    config:
+      enabled: false
+      fail-fast: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${JWK_SET_URI:https://demo.duendesoftware.com/.well-known/openid-configuration/jwks}
+
+eureka:
+  client:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+server:
+  port: 8080

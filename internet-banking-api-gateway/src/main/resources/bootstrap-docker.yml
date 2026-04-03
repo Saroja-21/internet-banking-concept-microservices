@@ -2,3 +2,8 @@ spring:
   cloud:
     config:
       uri: http://internet-banking-config-server:8090
+      fail-fast: false
+      retry:
+        initial-interval: 1000
+        max-attempts: 3
+        max-interval: 2000
